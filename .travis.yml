@@ -5,10 +5,14 @@ services:
   - docker
 
 before_install:
+  - echo "before docker build:"
+  - ls
   - docker build -t jm/docker-react -f Dockerfile.dev .
 
 script:
   - docker run -e CI=true jm/docker-react npm run test -- --coverage
+  - echo "before deploy:"
+  - ls
 
 deploy:
   provider: elasticbeanstalk
@@ -21,3 +25,8 @@ deploy:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
+
+script:
+  - echo "after deploy:"
+  - ls
+
